@@ -2,7 +2,7 @@
 
 # Premise
 This project is forked from [serverless-aws-documentation](https://github.com/deliveryhero/serverless-aws-documentation) and it is supposed to fix a reported [provider integration issue](https://github.com/deliveryhero/serverless-aws-documentation/issues/175).
-We fixed the issue and republished the package under a new name. Our plan is to maintain the package in the future
+We fixed the issue and republished the package under a new name. Our plan is to maintain the package in the future.
 
 # Serverless AWS Documentation
 
