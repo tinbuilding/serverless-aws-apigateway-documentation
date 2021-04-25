@@ -1,4 +1,8 @@
-[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![Build Status](https://travis-ci.org/9cookies/serverless-aws-documentation.svg?branch=master)](https://travis-ci.org/9cookies/serverless-aws-documentation) [![codecov](https://codecov.io/gh/9cookies/serverless-aws-documentation/branch/master/graph/badge.svg)](https://codecov.io/gh/9cookies/serverless-aws-documentation) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
+[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
+
+# Premise
+This project is forked from [serverless-aws-documentation](https://github.com/deliveryhero/serverless-aws-documentation) and it is supposed to fix a reported [provider integration issue](https://github.com/deliveryhero/serverless-aws-documentation/issues/175).
+We fixed the issue and republished the package under a new name. Our plan is to maintain the package in the future.
 
 # Serverless AWS Documentation
 

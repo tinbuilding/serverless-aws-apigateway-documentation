@@ -2431,6 +2431,9 @@ describe('ServerlessAWSDocumentation', function () {
   });
 
   describe('after deploy', function () {
+    const docVersionNotFoundErrorMock = new Error('blah Invalid Documentation version specified blah')
+    docVersionNotFoundErrorMock.providerError = { code: 'NotFoundException' }
+
     it('should not deploy documentation if there is no documentation in custom variables', function () {
       this.plugin.customVars = {};
       this.plugin.afterDeploy();
@@ -2594,7 +2597,7 @@ describe('ServerlessAWSDocumentation', function () {
               }],
             });
           case 'getDocumentationVersion':
-            return Promise.reject(new Error('Invalid Documentation version specified'));
+            return Promise.reject(docVersionNotFoundErrorMock);
           default:
             return Promise.resolve();
         }
@@ -2907,7 +2910,7 @@ describe('ServerlessAWSDocumentation', function () {
           case 'getDocumentationParts':
             return Promise.resolve({ items: [], });
           case 'getDocumentationVersion':
-            return Promise.reject(new Error('Invalid Documentation version specified'));
+            return Promise.reject(docVersionNotFoundErrorMock);
           default:
             return Promise.resolve();
         }
@@ -3207,7 +3210,7 @@ describe('ServerlessAWSDocumentation', function () {
               }],
             });
           case 'getDocumentationVersion':
-            return Promise.reject(new Error('Invalid Documentation version specified'));
+            return Promise.reject(docVersionNotFoundErrorMock);
           default:
             return Promise.resolve();
         }
@@ -3293,9 +3296,7 @@ describe('ServerlessAWSDocumentation', function () {
               items: [],
             });
           case 'getDocumentationVersion':
-            return Promise.reject({
-              message: 'Invalid Documentation version specified',
-            });
+            return Promise.reject(docVersionNotFoundErrorMock);
           case 'deleteDocumentationPart':
             return Promise.reject();
           default:
