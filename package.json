@@ -8,7 +8,7 @@
     "test": "istanbul cover -x \"src/index.spec.js\" jasmine ./src/index.spec.js ./src/documentation.spec.js ./src/models.spec.js ./src/downloadDocumentation.spec.js",
     "test:nocoverage": "jasmine ./src/index.spec.js"
   },
-  "repository": "9cookies/serverless-aws-apigateway-documentation",
+  "repository": "git@github.com:Kakkuk/serverless-aws-apigateway-documentation.git",
   "author": "Kakkuk Team",
   "license": "MIT",
   "devDependencies": {
