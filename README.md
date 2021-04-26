@@ -26,18 +26,18 @@ In addition to this documentation this plugin also adds support to add models to
 This plugin only works for Serverless 1.0 and up. For a plugin that supports 0.5 look at
 [this plugin](https://github.com/HyperBrain/serverless-models-plugin).
 
-To install this plugin, add `serverless-aws-documentation` to your package.json:
+To install this plugin, add `@kakkuk/serverless-aws-apigateway-documentation` to your package.json:
 
 ```
-npm install serverless-aws-documentation --save-dev
+npm install @kakkuk/serverless-aws-apigateway-documentation --save-dev
 ```
 
-Next, add the `serverless-aws-documentation` plugin in to serverless.yml file:
+Next, add the `@kakkuk/serverless-aws-apigateway-documentation` plugin in to serverless.yml file:
 If you don't already have a plugins section, create one that looks like this:
 
 ```YAML
 plugins:
-  - serverless-aws-documentation
+  - "@kakkuk/serverless-aws-apigateway-documentation"
 ```
 
 To verify that the plugin was added successfully, run this in your command line:

@@ -2431,8 +2431,8 @@ describe('ServerlessAWSDocumentation', function () {
   });
 
   describe('after deploy', function () {
-    const docVersionNotFoundErrorMock = new Error('blah Invalid Documentation version specified blah')
-    docVersionNotFoundErrorMock.providerError = { code: 'NotFoundException' }
+    const docVersionNotFoundErrorMock = new Error()
+    docVersionNotFoundErrorMock.providerError = { statusCode: 404 }
 
     it('should not deploy documentation if there is no documentation in custom variables', function () {
       this.plugin.customVars = {};
