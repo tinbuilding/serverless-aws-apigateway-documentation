@@ -43,9 +43,11 @@ class ServerlessAWSDocumentation {
             options: {
                 outputFileName: {
                   required: true,
+                  type: 'string'
                 },
                 extensions: {
                     required: false,
+                    type: 'multiple'
                 },
             },
         }
