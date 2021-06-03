@@ -57,6 +57,9 @@ describe('ServerlessAWSDocumentation', function () {
           }
         }
       },
+      configSchemaHandler: {
+        defineFunctionEventProperties: jasmine.createSpy('define function event props')
+      },
     };
 
     this.serverlessMock.providers.aws.naming.getMethodLogicalId.and.callFake((resourcename, method) => {
