@@ -94,7 +94,7 @@ class ServerlessAWSDocumentation {
                 {
                   type: 'object',
                   properties: {
-                    statusCode: { type: 'number' },
+                    statusCode: { type: 'string' },
                     responseBody: { "'$ref'": '#/definitions/body' },
                     responseHeaders: { "'$ref'": '#/definitions/arrayOfProps' },
                     responseModels: { "'$ref'": '#/definitions/models' }
