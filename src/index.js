@@ -115,6 +115,7 @@ class ServerlessAWSDocumentation {
   beforeDeploy() {
     this.customVars = this.serverless.variables.service.custom;
     if (!(this.customVars && this.customVars.documentation)) return;
+    const SPLIT_MODELS_LIMIT = this.serverless.variables.service.provider.documentation.splitModelsLimit || 10;
 
     if (this.customVars.documentation.swagger) {
       // Handle references to models
@@ -229,6 +230,9 @@ class ServerlessAWSDocumentation {
       const func = this.serverless.service.getFunction(functionName);
       func.events.forEach(this.updateCfTemplateFromHttp.bind(this));
     });
+
+    // Preventing "too much request" error in cloudFormation
+    this.cfTemplate.Resources = this.makeDependents(this.cfTemplate.Resources, SPLIT_MODELS_LIMIT);
 
     // Add models
     this.cfTemplate.Outputs.AwsDocApiId = {

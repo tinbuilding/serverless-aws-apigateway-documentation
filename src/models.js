@@ -1,5 +1,7 @@
 'use strict';
 
+const AWS_APIGATEWAY_METHOD = 'AWS::ApiGateway::Model'
+
 function replaceModelRefs(restApiId, cfModel) {
     if (!cfModel.Properties || !cfModel.Properties.Schema || Object.keys(cfModel.Properties.Schema).length == 0) {
       return cfModel;
@@ -39,12 +41,45 @@ function replaceModelRefs(restApiId, cfModel) {
     return cfModel;
 }
 
+function splitResourcesDepends(data) {
+  const initialFormat = { withDepends: {}, withoutDepends: {}, othersResources: {} }
+  return Object.keys(data).reduce(({ withDepends, withoutDepends, othersResources }, resourceName) => {
+      if (data[resourceName].Type === AWS_APIGATEWAY_METHOD) {
+          if (!data[resourceName].DependsOn) {
+              withoutDepends = { ...withoutDepends, [resourceName]: data[resourceName] }
+          } else {
+              withDepends = { ...withDepends, [resourceName]: data[resourceName] }
+          }
+      } else {
+          othersResources = { ...othersResources, [resourceName]: data[resourceName] }
+      }
+
+      return { withDepends, withoutDepends, othersResources }
+  }, initialFormat)
+}
+
+function preparingModelsWithoutDepends(models, SPLIT_LIMIT) {
+  const keys = Object.keys(models).map(v => v);
+  const length = keys.length;
+
+  for(let i = 0; (i + SPLIT_LIMIT) < length; i++) {
+    const fatherName = keys[i]
+    let sonModel = models[keys[i + SPLIT_LIMIT]]
+    
+    sonModel.DependsOn = [fatherName]
+
+    models[keys[i + SPLIT_LIMIT]] = sonModel
+  }
+
+  return models
+}
+
 module.exports = {
   createCfModel: function createCfModel(restApiId) {
     return function(model) {
 
       let cfModel = {
-        Type: 'AWS::ApiGateway::Model',
+        Type: AWS_APIGATEWAY_METHOD,
         Properties: {
           RestApiId: restApiId,
           ContentType: model.contentType,
@@ -123,6 +158,12 @@ module.exports = {
       });
       resource.Properties.RequestModels = documentation.requestModels;
     }
-  }
+  },
 
+  makeDependents: function makeDependents(resources, SPLIT_LIMIT) {
+    const { withDepends, withoutDepends, othersResources } = splitResourcesDepends(resources);
+    const newsModelsWithDependsOn = preparingModelsWithoutDepends(withoutDepends, SPLIT_LIMIT);
+
+    return { ...newsModelsWithDependsOn, ...withDepends, ...othersResources };
+  }
 };
