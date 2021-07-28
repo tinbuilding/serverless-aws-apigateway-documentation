@@ -21,18 +21,18 @@ In addition to this documentation this plugin also adds support to add models to
 This plugin only works for Serverless 1.0 and up. For a plugin that supports 0.5 look at
 [this plugin](https://github.com/HyperBrain/serverless-models-plugin).
 
-To install this plugin, add `@kakkuk/serverless-aws-apigateway-documentation` to your package.json:
+To install this plugin, add `@reibus/serverless-aws-apigateway-documentation` to your package.json:
 
 ```
-npm install @kakkuk/serverless-aws-apigateway-documentation --save-dev
+npm install @reibus/serverless-aws-apigateway-documentation --save-dev
 ```
 
-Next, add the `@kakkuk/serverless-aws-apigateway-documentation` plugin in to serverless.yml file:
+Next, add the `@reibus/serverless-aws-apigateway-documentation` plugin in to serverless.yml file:
 If you don't already have a plugins section, create one that looks like this:
 
 ```YAML
 plugins:
-  - "@kakkuk/serverless-aws-apigateway-documentation"
+  - "@reibus/serverless-aws-apigateway-documentation"
 ```
 
 To verify that the plugin was added successfully, run this in your command line:
@@ -302,6 +302,18 @@ ApiGatewayMethod{normalizedPath}{normalizedMethod}:
 ```
 
 See the Serverless documentation for more information on [resource naming](https://serverless.com/framework/docs/providers/aws/guide/resources/), and the AWS documentation for more information on [request parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html#cfn-apigateway-method-integration-requestparameters).
+
+
+### Importing models from others stacks
+
+Adding the import section to the documentation event we are able to import from others stacks, for example:
+
+            requestModels:
+              "application/json":
+                import: "ExampleRequestModelName"
+
+NOTE: Working with requestModels and respondeModels as well.
+      The same name that we can see in the model section on aws api gateway
 
 ### Download documentation from AWS API Gateway
 
