@@ -307,13 +307,27 @@ See the Serverless documentation for more information on [resource naming](https
 ### Importing models from others stacks
 
 Adding the import section to the documentation event we are able to import from others stacks, for example:
-
+```YAML
             requestModels:
               "application/json":
                 import: "ExampleRequestModelName"
-
+```
 NOTE: Working with requestModels and respondeModels as well.
       The same name that we can see in the model section on aws api gateway
+
+### If you are having "too much requests" from CloudFormation
+
+You can active a split models feature adding this into the provider section:
+
+```YAML
+provider:
+...
+  documentation:
+    splitModels: true ## Default: false
+    splitModelsLimit: 8 ## Default: 10
+...
+```
+This will add DependsOn properties to your models and every splitModelsLimit will be a step in your deployment preventing too much requests.
 
 ### Download documentation from AWS API Gateway
 
