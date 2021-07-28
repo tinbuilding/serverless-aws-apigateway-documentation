@@ -63,7 +63,9 @@ module.exports = {
 
   addModelDependencies: function addModelDependencies(models, resource) {
     Object.keys(models).forEach(contentType => {
-      resource.DependsOn.add(`${models[contentType]}Model`);
+      if (!modes[contentType].import) {
+        resource.DependsOn.add(`${models[contentType]}Model`);
+      }
     });
   },
 
@@ -73,7 +75,7 @@ module.exports = {
         resource.Properties.MethodResponses = [];
       }
 
-      documentation.methodResponses.forEach(response => {
+      const newMethodResponses = documentation.methodResponses.map(response => {
         const statusCode = response.statusCode.toString();
         let _response = resource.Properties.MethodResponses
           .find(originalResponse => originalResponse.StatusCode.toString() === statusCode);
@@ -97,14 +99,28 @@ module.exports = {
         if (response.responseModels) {
           _response.ResponseModels = response.responseModels;
           this.addModelDependencies(_response.ResponseModels, resource);
+          Object.keys(response.responseModels).forEach(model => {
+            if (response.responseModels[model].import) {
+              response.responseModels[model] = response.responseModels[model].import;
+            }
+          })
         }
+
+        return response
       });
+
+      documentation.methodResponses = newMethodResponses;
     }
   },
 
   addRequestModels: function addRequestModels(resource, documentation) {
     if (documentation.requestModels && Object.keys(documentation.requestModels).length > 0) {
       this.addModelDependencies(documentation.requestModels, resource);
+      Object.keys(documentation.requestModels).forEach(model => {
+        if (documentation.responseModels[model].import) {
+          documentation.responseModels[model] = documentation.responseModels[model].import
+        }
+      });
       resource.Properties.RequestModels = documentation.requestModels;
     }
   }
