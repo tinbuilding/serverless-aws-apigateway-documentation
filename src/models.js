@@ -98,7 +98,7 @@ module.exports = {
 
   addModelDependencies: function addModelDependencies(models, resource) {
     Object.keys(models).forEach(contentType => {
-      if (!modes[contentType].import) {
+      if (!models[contentType].import) {
         resource.DependsOn.add(`${models[contentType]}Model`);
       }
     });
@@ -152,8 +152,8 @@ module.exports = {
     if (documentation.requestModels && Object.keys(documentation.requestModels).length > 0) {
       this.addModelDependencies(documentation.requestModels, resource);
       Object.keys(documentation.requestModels).forEach(model => {
-        if (documentation.responseModels[model].import) {
-          documentation.responseModels[model] = documentation.responseModels[model].import
+        if (documentation.requestModels[model].import) {
+          documentation.requestModels[model] = documentation.requestModels[model].import
         }
       });
       resource.Properties.RequestModels = documentation.requestModels;
