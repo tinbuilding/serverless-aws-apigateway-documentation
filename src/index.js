@@ -5,6 +5,9 @@ const swagger = require('./swagger');
 const fs = require('fs');
 const downloadDocumentation = require('./downloadDocumentation');
 
+const SPLIT_NUMBER_DEFAULT = 10
+const SPLIT_FEATURE_DEFAULT = false
+
 class ServerlessAWSDocumentation {
   constructor(serverless, options) {
     this.serverless = serverless;
@@ -115,8 +118,14 @@ class ServerlessAWSDocumentation {
   beforeDeploy() {
     this.customVars = this.serverless.variables.service.custom;
     if (!(this.customVars && this.customVars.documentation)) return;
-    const SPLIT_MODELS_LIMIT = this.serverless.variables.service.provider.documentation.splitModelsLimit || 10;
-    const SPLIT_FEATURE = this.serverless.variables.service.provider.documentation.splitModels || false;
+
+    let SPLIT_MODELS_LIMIT = SPLIT_NUMBER_DEFAULT;
+    let SPLIT_FEATURE = SPLIT_FEATURE_DEFAULT;
+
+    if (this.serverless.variables.service.provider.documentation) {
+      SPLIT_MODELS_LIMIT = this.serverless.variables.service.provider.documentation.splitModelsLimit || SPLIT_MODELS_LIMIT;
+      SPLIT_FEATURE = this.serverless.variables.service.provider.documentation.splitModels || SPLIT_FEATURE;
+    }
 
     if (this.customVars.documentation.swagger) {
       // Handle references to models
