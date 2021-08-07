@@ -50,11 +50,11 @@ function determinePropertiesToGet (type) {
 }
 
 function mapPathLogicalPart(path) {
-  return path.split('/').map((x) => {
+  return replaceDashes(path.split('/').map((x) => {
     if (x.startsWith('{') && x.endsWith('}'))
       return x.slice(1, x.length - 1);
     return x[0].toUpperCase() + x.slice(1);
-  }).join('')
+  }).join(''))
 }
 
 function mapStringToSafeHex(string) {
@@ -77,21 +77,21 @@ function logicalIdForPart(location) {
   case 'RESOURCE':
     return mapPathLogicalPart(location.path) + 'ResourceDocPart';
   case 'METHOD':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + 'MethodDocPart';
+    return mapPathLogicalPart(location.path) + location.method + 'MethodDocPart';
   case 'QUERY_PARAMETER':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + 'QueryParamDocPart';
+    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + 'QueryParamDocPart';
   case 'REQUEST_BODY':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + 'ReqBodyDocPart';
+    return mapPathLogicalPart(location.path) + location.method + 'ReqBodyDocPart';
   case 'REQUEST_HEADER':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + 'ReqHeadDocPart';
+    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + 'ReqHeadDocPart';
   case 'PATH_PARAMETER':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + 'PathParamDocPart';
+    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + 'PathParamDocPart';
   case 'RESPONSE':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + location.statusCode + 'ResDocPart';
+    return mapPathLogicalPart(location.path) + location.method + location.statusCode + 'ResDocPart';
   case 'RESPONSE_HEADER':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + location.statusCode + 'ResHeadDocPart';
+    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + location.statusCode + 'ResHeadDocPart';
   case 'RESPONSE_BODY':
-    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + location.statusCode + 'ResBodyDocPart';
+    return mapPathLogicalPart(location.path) + location.method + location.statusCode + 'ResBodyDocPart';
   case 'AUTHORIZER':
     return logicalIdCompatible(location.name) + 'AuthorizerDocPart';
   case 'MODEL':
