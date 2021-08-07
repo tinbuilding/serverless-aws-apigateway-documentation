@@ -66,6 +66,10 @@ function logicalIdCompatible(text) {
   return text.replace(alphanumericRegex, mapStringToSafeHex);
 }
 
+function replaceDashes(text) {
+  return text.replace(/-/g, 'Dash');
+}
+
 function logicalIdForPart(location) {
   switch (location.type) {
   case 'API':
@@ -73,21 +77,21 @@ function logicalIdForPart(location) {
   case 'RESOURCE':
     return mapPathLogicalPart(location.path) + 'ResourceDocPart';
   case 'METHOD':
-    return mapPathLogicalPart(location.path) + location.method + 'MethodDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + 'MethodDocPart';
   case 'QUERY_PARAMETER':
-    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + 'QueryParamDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + 'QueryParamDocPart';
   case 'REQUEST_BODY':
-    return mapPathLogicalPart(location.path) + location.method + 'ReqBodyDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + 'ReqBodyDocPart';
   case 'REQUEST_HEADER':
-    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + 'ReqHeadDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + 'ReqHeadDocPart';
   case 'PATH_PARAMETER':
-    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + 'PathParamDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + 'PathParamDocPart';
   case 'RESPONSE':
-    return mapPathLogicalPart(location.path) + location.method + location.statusCode + 'ResDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + location.statusCode + 'ResDocPart';
   case 'RESPONSE_HEADER':
-    return mapPathLogicalPart(location.path) + location.method + logicalIdCompatible(location.name) + location.statusCode + 'ResHeadDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + logicalIdCompatible(location.name) + location.statusCode + 'ResHeadDocPart';
   case 'RESPONSE_BODY':
-    return mapPathLogicalPart(location.path) + location.method + location.statusCode + 'ResBodyDocPart';
+    return mapPathLogicalPart(location.path) + replaceDashes(location.method) + location.statusCode + 'ResBodyDocPart';
   case 'AUTHORIZER':
     return logicalIdCompatible(location.name) + 'AuthorizerDocPart';
   case 'MODEL':
