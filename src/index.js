@@ -110,7 +110,7 @@ class ServerlessAWSDocumentation {
         }
       }
     };
-    
+
     //create schema for 'documentation' property
     this.serverless.configSchemaHandler.defineFunctionEventProperties('aws', 'http', docConfigSchema);
   }
@@ -240,6 +240,9 @@ class ServerlessAWSDocumentation {
       const func = this.serverless.service.getFunction(functionName);
       func.events.forEach(this.updateCfTemplateFromHttp.bind(this));
     });
+
+    // Add documentation parts for HTTP endpoints
+    this.updateCfTemplateWithEndpoints(restApiId);
 
     // Preventing "too much request" error in cloudFormation
     if (SPLIT_FEATURE) {
